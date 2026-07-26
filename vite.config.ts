@@ -6,8 +6,14 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 // https://vite.dev/config/
 const viteConfig = defineConfig({
   plugins: [
-    cloudflare({ viteEnvironment: { name: "ssr" } }),
-    tanstackStart({}),
+    cloudflare({
+      viteEnvironment: { name: "ssr" },
+    }),
+    tanstackStart({
+      router: {
+        generatedRouteTree: "routeTree.gen.ts",
+      },
+    }),
     react(),
   ],
 });
