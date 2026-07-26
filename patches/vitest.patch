@@ -1,0 +1,40 @@
+diff --git a/dist/chunks/cli-api.BK8pd4xc.js b/dist/chunks/cli-api.BK8pd4xc.js
+index 1fbd189a39af6fbc5dac2d572ce1e414e52afdfa..fdf6293a6fb35189761edde0dc07ab716bd4e674 100644
+--- a/dist/chunks/cli-api.BK8pd4xc.js
++++ b/dist/chunks/cli-api.BK8pd4xc.js
+@@ -3484,7 +3484,7 @@ class Pool {
+ 				this.exitPromises.push(runner.stop({ force: resolver.isRejected }).then(() => clearTimeout(id)).catch((error) => this.logger.error(`[vitest-pool]: Failed to terminate ${task.worker} worker for test files ${formatFiles(task)}.`, error)));
+ 			}
+ 			this.freeWorkerId(poolId);
+-		} 
++		}
+ 		// This is mostly to avoid zombie workers when/if Vitest internals run into errors
+ catch (error) {
+ 			return resolver.reject(error);
+@@ -8937,7 +8937,7 @@ function isValidApiRequest(config, req) {
+ 	try {
+ 		const token = url.searchParams.get("token");
+ 		if (token && crypto.timingSafeEqual(Buffer.from(token), Buffer.from(config.api.token))) return true;
+-	} 
++	}
+ 	// an error is thrown when the length is incorrect
+ catch {}
+ 	return false;
+@@ -10173,7 +10173,7 @@ function ModuleRunnerTransform() {
+ 				const envExternal = resolveViteResolveOptions("external", config.resolve, testConfig.deps?.moduleDirectories);
+ 				if (envExternal !== true && envExternal.length) external.push(...envExternal);
+ 				// remove Vite's externalization logic because we have our own (unfortunately)
+-				config.resolve.external = [...builtinModules, ...builtinModules.map((m) => `node:${m}`)];
++				config.resolve.external = [...builtinModules, ...builtinModules.filter(m => !m.startsWith('node:')).map((m) => `node:${m}`)];
+ 				// by setting `noExternal` to `true`, we make sure that
+ 				// Vite will never use its own externalization mechanism
+ 				// to externalize modules and always resolve static imports
+@@ -14221,7 +14221,7 @@ async function createVitest(mode, options, viteOverrides = {}, vitestOptions = {
+ 		const server = await createViteServer(mergeConfig(config, mergeConfig(viteOverrides, { root: options.root })));
+ 		if (ctx.config.api?.port) await server.listen();
+ 		return ctx;
+-	} 
++	}
+ 	// Vitest can fail at any point inside "setServer" or inside a custom plugin
+ 	// Then we need to make sure everything was properly closed (like the logger)
+ catch (error) {
